@@ -19,34 +19,28 @@ import { Subscription } from "rxjs";
         MatIconModule
     ]
 })
-export class BlogCardComponent implements OnDestroy {
+export class BlogCardComponent {
     private readonly router = inject(Router);
     private readonly blogFacade = inject(BlogFacade);
     private readonly dialog = inject(MatDialog);
 
     @Input() public blog!: Blog;
 
-    private afterCloseSub: Subscription | null = null;
-
-    public ngOnDestroy(): void {
-        this.afterCloseSub?.unsubscribe();
-    }
-
     public redirectToDetail() {
         this.router.navigate([`/blog/${this.blog.id}`]);
-    }
-
-    private remove() {
-        this.blogFacade.remove(this.blog);
     }
 
     public openDeleteDialog() {
         const dialogRef = this.dialog.open(DeleteDialogComponent);
 
-        this.afterCloseSub = dialogRef.afterClosed().subscribe((result) => {
+        dialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this.remove();
             }
         });
+    }
+
+    private remove() {
+        this.blogFacade.remove(this.blog);
     }
 }

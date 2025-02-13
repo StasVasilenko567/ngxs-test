@@ -21,20 +21,14 @@ import { Subscription } from "rxjs";
         MatIconModule
     ]
 })
-export class BlogListComponent implements OnInit, OnDestroy {
+export class BlogListComponent implements OnInit {
     private readonly blogFacade = inject(BlogFacade);
     private readonly dialog = inject(MatDialog);
 
     public blogs$ = this.blogFacade.blogs$;
 
-    private afterCloseSub: Subscription | null = null;
-
     public ngOnInit(): void {
         this.blogFacade.loadBlogs();
-    }
-
-    public ngOnDestroy(): void {
-        this.afterCloseSub?.unsubscribe();
     }
 
     public openCreateDialog() {
@@ -42,7 +36,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
             width: "900px",
         });
 
-        this.afterCloseSub = dialogRef.afterClosed().subscribe((result) => {
+        dialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this.createBlog(result);
             }
