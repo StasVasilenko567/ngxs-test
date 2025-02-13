@@ -5,7 +5,6 @@ import { BlogsApiService } from '../services/blogs-api.service';
 import { BlogActions, blogFeatureKey } from './blog.actions';
 import { tap } from 'rxjs';
 
-// export namespace BlogStore {
   export interface BlogStateModel {
     data: {
       blogs: Blog[];
@@ -29,23 +28,6 @@ import { tap } from 'rxjs';
   @Injectable()
   export class BlogState {
     private readonly apiService = inject(BlogsApiService);
-  
-    // @Selector()
-    // static isLoading(state: BlogStateModel): boolean {
-    //   return state.loading;
-    // }
-  
-    // @Selector()
-    // static getBlogs(state: BlogStateModel): Blog[] {
-    //   return state.data.blogs;
-    // }
-  
-    // static getBlogById(id: string) {
-    //   return createSelector(
-    //     [BlogState], 
-    //     (state) => state.data.blogs.find((blog: Blog) => blog.id === id)
-    //   );
-    // }
   
     @Action(BlogActions.LoadBlogsAction)
     public loadBlogs(ctx: StateContext<BlogStateModel>) {
@@ -107,4 +89,3 @@ import { tap } from 'rxjs';
       );
     }
   }  
-// }

@@ -1,6 +1,5 @@
 import { inject, Injectable } from "@angular/core";
 import { Store } from "@ngxs/store";
-// import { BlogState } from "../store/blog.state";
 import { map, Observable } from "rxjs";
 import { Blog } from "../models/blog.model";
 import { BlogActions } from "../store/blog.actions";
