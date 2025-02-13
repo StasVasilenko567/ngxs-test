@@ -1,7 +1,7 @@
-<container>
+<div class="container">
     <h1>Blog List</h1>
     <button mat-button (click)="openCreateDialog()"><mat-icon>create</mat-icon> Новый пост</button>
     <div class="blogs-list">
         <blog-card *ngFor="let blog of blogs$ | async" [blog]="blog"></blog-card>
     </div>
-</container>
+</div>

@@ -1,10 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { State, Action, StateContext, NgxsOnInit, Selector, createSelector } from '@ngxs/store';
+import { State, Action, StateContext, Selector, createSelector } from '@ngxs/store';
 import { Blog } from '../models/blog.model';
 import { BlogsApiService } from '../services/blogs-api.service';
-import { LoadBlogsAction } from './blog.actions';
-import * as Actions from './blog.actions';
-import { catchError, map } from 'rxjs';
+import { BlogActions, blogFeatureKey } from './blog.actions';
+import { tap } from 'rxjs';
 
 export interface BlogStateModel {
   data: {
@@ -23,16 +22,12 @@ const defaults: BlogStateModel = {
 };
 
 @State<BlogStateModel>({
-  name: 'post',
+  name: blogFeatureKey,
   defaults
 })
 @Injectable()
-export class BlogState implements NgxsOnInit {
+export class BlogState {
   private readonly apiService = inject(BlogsApiService);
-
-  public ngxsOnInit(ctx: StateContext<BlogStateModel>): void {
-    ctx.dispatch(new LoadBlogsAction());
-  }
 
   @Selector()
   static isLoading(state: BlogStateModel): boolean {
@@ -51,10 +46,10 @@ export class BlogState implements NgxsOnInit {
     );
   }
 
-  @Action(Actions.LoadBlogsAction)
+  @Action(BlogActions.LoadBlogsAction)
   public loadBlogs(ctx: StateContext<BlogStateModel>) {
     return this.apiService.getAll().pipe(
-      map((blogs) => {
+      tap((blogs) => {
         const state = ctx.getState();
 
         ctx.setState({
@@ -67,10 +62,10 @@ export class BlogState implements NgxsOnInit {
     );
   }
 
-  @Action(Actions.AddAction)
-  public add(ctx: StateContext<BlogStateModel>, action: Actions.AddAction) {
-    return this.apiService.add(action.post).pipe(
-      map((blog) => {
+  @Action(BlogActions.AddAction)
+  public add(ctx: StateContext<BlogStateModel>, action: BlogActions.AddAction) {
+    return this.apiService.add(action.blog).pipe(
+      tap((blog) => {
         const state = ctx.getState();
 
         ctx.setState({
@@ -83,10 +78,10 @@ export class BlogState implements NgxsOnInit {
     );
   }
 
-  @Action(Actions.UpdateAction)
-  public update(ctx: StateContext<BlogStateModel>, action: Actions.UpdateAction) {
+  @Action(BlogActions.UpdateAction)
+  public update(ctx: StateContext<BlogStateModel>, action: BlogActions.UpdateAction) {
     return this.apiService.update(action.blog).pipe(
-      map((blog) => {
+      tap((blog) => {
         const state = ctx.getState();
 
         ctx.setState({
@@ -97,10 +92,10 @@ export class BlogState implements NgxsOnInit {
     )
   }
 
-  @Action(Actions.RemoveAction)
-  public remove(ctx: StateContext<BlogStateModel>, action: Actions.RemoveAction) {
+  @Action(BlogActions.RemoveAction)
+  public remove(ctx: StateContext<BlogStateModel>, action: BlogActions.RemoveAction) {
     return this.apiService.remove(action.id).pipe(
-      map((blog) => {
+      tap((blog) => {
         const state = ctx.getState();
 
         ctx.setState({
