@@ -1,0 +1,8 @@
+<container>
+    <div class="header">
+        <h1>{{blogData?.title}}</h1>
+        <p class="header__createat">{{blogData?.createdAt | date: 'dd MMMM YYYY' }}, от {{blogData?.author}}</p>
+    </div>
+    <button mat-button (click)="goBack()"><mat-icon>arrow_back</mat-icon> Назад</button>
+    <p>{{blogData?.content}}</p>
+</container>

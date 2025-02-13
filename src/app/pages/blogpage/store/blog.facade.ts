@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { Actions, ofActionDispatched, Select, select, Store } from "@ngxs/store";
+import { Store } from "@ngxs/store";
 import { BlogState } from "./blog.state";
 import { map, Observable } from "rxjs";
 import { Blog } from "../models/blog.model";
@@ -10,18 +10,24 @@ import * as blogActions from './blog.actions';
 export class BlogFacade {
 
     private readonly store = inject(Store);
-    private readonly actions = inject(Actions);
 
-    @Select(BlogState.isLoading)
-    public readonly loading$!: Observable<boolean>;
+    public readonly blogs$: Observable<Blog[]> = this.store.select(BlogState.getBlogs);
 
-    @Select(BlogState.getBlogs)
-    public readonly blogs$!: Observable<Blog[]>;
+    public readonly blog$ = (id: string) => this.store.select(BlogState.getBlogById(id));
 
-    public readonly loadSuccess = this.actions.pipe(
-        ofActionDispatched(blogActions.LoadBlogsSuccessAction),
-        map((action) => action.blogs)
-    );
+    public loadBlogs() {
+        this.store.dispatch(new blogActions.LoadBlogsAction());
+    }
 
-    
+    public addBlog(blogCreate: Blog) {
+        this.store.dispatch(new blogActions.AddAction(blogCreate));
+    }
+
+    public update(blogUpdate: Blog) {
+        this.store.dispatch(new blogActions.UpdateAction(blogUpdate));
+    }
+
+    public remove(blogRemove: Blog) {
+        this.store.dispatch(new blogActions.RemoveAction(blogRemove.id));
+    }
 }

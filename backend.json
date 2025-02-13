@@ -1,0 +1,25 @@
+{
+  "blogs": [
+    {
+      "id": "1",
+      "title": "Angular 19: The Future of Web Development",
+      "content": "Angular 19 is the latest version of the popular Angular framework. It introduces several new features and improvements to make web development easier and more efficient.",
+      "createdAt": "2023-04-01T12:00:00Z",
+      "author": "Me"
+    },
+    {
+      "id": "1739435974262",
+      "title": "ddwdss",
+      "content": "gerkghwerognrgnhoiwerugifrweuvbniebvwirvbiwbvbwv",
+      "author": "wda",
+      "createdAt": "2025-02-13T21:00:00.000Z"
+    },
+    {
+      "id": "1739436969614",
+      "title": "уууу",
+      "content": "уууууууууууууууууууууууууууууууууууууууууууууууууууууууууууууууууууууууууууууууууууу",
+      "author": "ву",
+      "createdAt": "2025-02-19T21:00:00.000Z"
+    }
+  ]
+}

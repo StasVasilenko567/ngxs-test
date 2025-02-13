@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { State, Action, StateContext, NgxsOnInit, Selector } from '@ngxs/store';
+import { State, Action, StateContext, NgxsOnInit, Selector, createSelector } from '@ngxs/store';
 import { Blog } from '../models/blog.model';
 import { BlogsApiService } from '../services/blogs-api.service';
 import { LoadBlogsAction } from './blog.actions';
@@ -30,8 +30,6 @@ const defaults: BlogStateModel = {
 export class BlogState implements NgxsOnInit {
   private readonly apiService = inject(BlogsApiService);
 
-  // На будущее:
-  // штука сомнительная
   public ngxsOnInit(ctx: StateContext<BlogStateModel>): void {
     ctx.dispatch(new LoadBlogsAction());
   }
@@ -46,10 +44,11 @@ export class BlogState implements NgxsOnInit {
     return state.data.blogs;
   }
 
-  static getBlogById(id: string): (state: BlogStateModel) => Blog | null {
-    return (state: BlogStateModel) => {
-      return state.data.blogs.find(blog => blog.id === id) || null;
-    };
+  static getBlogById(id: string) {
+    return createSelector(
+      [BlogState], 
+      (state) => state.data.blogs.find((blog: Blog) => blog.id === id)
+    );
   }
 
   @Action(Actions.LoadBlogsAction)
@@ -64,32 +63,9 @@ export class BlogState implements NgxsOnInit {
             blogs: [...blogs],
           }
         })
-
-        return ctx.dispatch(new Actions.LoadBlogsSuccessAction(blogs));
       }),
-      catchError((err: unknown) => ctx.dispatch(new Actions.LoadBlogsFailureAction(err)))
     );
   }
-
-  // А нафиг ты вообще нужен?
-  // @Action(Actions.LoadByIdAction)
-  // public loadById(ctx: StateContext<BlogStateModel>, action: Actions.LoadByIdAction) {
-  //   return this.apiService.getById(action.id).pipe(
-  //     map((blog) => {
-  //       const state = ctx.getState();
-
-  //       ctx.setState({
-  //         ...state,
-  //         data: {
-  //           blogs: [...state.data.blogs, blog],
-  //         }
-  //       });
-
-  //       return ctx.dispatch(new Actions.LoadByIdSuccessAction(blog));
-  //     }),
-  //     catchError((err: unknown) => ctx.dispatch(new Actions.LoadByIdFailureAction(err)))
-  //   );
-  // }
 
   @Action(Actions.AddAction)
   public add(ctx: StateContext<BlogStateModel>, action: Actions.AddAction) {
@@ -117,10 +93,7 @@ export class BlogState implements NgxsOnInit {
           ...state,
           data: { blogs: state.data.blogs.map(blog => blog.id === action.blog.id ? action.blog : blog) }
         });
-
-        ctx.dispatch(new Actions.UpdateSuccessAction(blog));
       }),
-      catchError((err: unknown) => ctx.dispatch(new Actions.UpdateFailureAction(err)))
     )
   }
 
@@ -134,10 +107,7 @@ export class BlogState implements NgxsOnInit {
           ...state,
           data: { blogs: state.data.blogs.filter(blog => blog.id !== action.id) }
         });
-
-        ctx.dispatch(new Actions.RemoveSuccessAction(blog.id));
       }),
-      catchError((err: unknown) => ctx.dispatch(new Actions.RemoveFailureAction(err)))
     );
   }
 }
