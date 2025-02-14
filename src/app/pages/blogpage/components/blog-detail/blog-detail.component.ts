@@ -1,9 +1,10 @@
-import { Component, inject, OnDestroy, OnInit } from "@angular/core";
+import { Component, inject, OnDestroy, OnInit, Signal } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BlogFacade } from "../../facades/blog.facade";
 import { AsyncPipe, DatePipe } from "@angular/common";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
+import { Blog } from "../../models/blog.model";
 
 @Component({
     selector: "blog-detail",
@@ -12,8 +13,7 @@ import { MatIconModule } from "@angular/material/icon";
     imports: [
         DatePipe,
         MatButtonModule,
-        MatIconModule,
-        AsyncPipe
+        MatIconModule
     ]
 })
 export class BlogDetailComponent implements OnInit {
@@ -23,7 +23,8 @@ export class BlogDetailComponent implements OnInit {
 
     private id = this.activatedRoute.snapshot.paramMap.get('id');
     
-    public blog$ = this.blogFacade.getBlogById(this.id as string);
+    // public blog$ = this.blogFacade.getBlogById(this.id as string);
+    public blog: Signal<Blog | undefined> = this.blogFacade.getBlogById(this.id as string);
 
     public ngOnInit(): void {
         this.blogFacade.loadBlogs();

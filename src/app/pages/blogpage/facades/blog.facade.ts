@@ -1,4 +1,4 @@
-import { inject, Injectable } from "@angular/core";
+import { inject, Injectable, Signal } from "@angular/core";
 import { Store } from "@ngxs/store";
 import { map, Observable } from "rxjs";
 import { Blog } from "../models/blog.model";
@@ -12,8 +12,8 @@ export class BlogFacade {
 
     public readonly blogs$: Observable<Blog[]> = this.store.select(BlogSelectors.blogs);
 
-    public getBlogById(id: string) : Observable<Blog | undefined> {
-        return this.store.select(BlogSelectors.getBlogById(id));
+    public getBlogById(id: string) : Signal<Blog | undefined> {
+        return this.store.selectSignal(BlogSelectors.getBlogById(id));
     }
 
     public loadBlogs() {

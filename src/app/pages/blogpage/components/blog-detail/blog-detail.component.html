@@ -1,8 +1,8 @@
 <div class="container">
     <div class="header">
-        <h1>{{(blog$ | async)?.title}}</h1>
-        <p class="header__createat">{{(blog$ | async)?.createdAt | date: 'dd MMMM YYYY' }}, от {{(blog$ | async)?.author}}</p>
+        <h1>{{blog()?.title}}</h1>
+        <p class="header__createat">{{blog()?.createdAt | date: 'dd MMMM YYYY' }}, от {{blog()?.author}}</p>
     </div>
     <button mat-button (click)="goBack()"><mat-icon>arrow_back</mat-icon> Назад</button>
-    <p>{{(blog$ | async)?.content}}</p>
+    <p>{{blog()?.content}}</p>
 </div>
