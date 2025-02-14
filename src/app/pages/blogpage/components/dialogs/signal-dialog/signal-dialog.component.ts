@@ -4,6 +4,7 @@ import { MatDialogActions, MatDialogContent, MatDialogModule, MatDialogRef, MatD
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 
 @Component({
     selector: "signal-dialog",
@@ -16,18 +17,18 @@ import { CommonModule } from "@angular/common";
         MatDialogActions,
         MatDialogContent,
         MatIconModule,
+        FormsModule,
         CommonModule
     ]
 })
 export class SignalDialogComponent {
     private readonly dialogRef = inject(MatDialogRef<CreateBlogDialogComponent>);
 
-    @ViewChild("text") public text!: ElementRef;
-
+    public text!: string;
     public textSignal = signal("");
 
     public onChange() {
-        this.textSignal.set(this.text.nativeElement.value);
+        this.textSignal.set(this.text);
     }
 
     public close() {
