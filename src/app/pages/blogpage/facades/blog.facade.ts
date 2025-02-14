@@ -10,7 +10,7 @@ export class BlogFacade {
 
     private readonly store = inject(Store);
 
-    public readonly blogs$: Observable<Blog[]> = this.store.select(BlogSelectors.blogs);
+    public readonly blogs$ = this.store.select(BlogSelectors.blogs);
 
     public getBlogById(id: string) : Signal<Blog | undefined> {
         return this.store.selectSignal(BlogSelectors.getBlogById(id));

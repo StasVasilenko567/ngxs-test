@@ -4,8 +4,9 @@ import { Blog } from '../models/blog.model';
 import { BlogsApiService } from '../services/blogs-api.service';
 import { BlogActions } from './blog.actions';
 import { tap } from 'rxjs';
+import { blogFeatureKey } from './blog.consts';
 
-export const blogFeatureKey = "Blog";
+// export const blogFeatureKey = "Blog";
 
 export interface BlogStateModel {
   data: {
