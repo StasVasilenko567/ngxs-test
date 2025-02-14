@@ -24,12 +24,7 @@ import { FormsModule } from "@angular/forms";
 export class SignalDialogComponent {
     private readonly dialogRef = inject(MatDialogRef<CreateBlogDialogComponent>);
 
-    public text!: string;
     public textSignal = signal("");
-
-    public onChange() {
-        this.textSignal.set(this.text);
-    }
 
     public close() {
         this.dialogRef.close();
