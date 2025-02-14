@@ -1,8 +1,5 @@
 import { Blog } from "../models/blog.model";
 import { blogFeatureKey } from "./blog.consts";
-// import { blogFeatureKey } from "./blog.state";
-
-// export const blogFeatureKey = "Blog";
 
 export namespace BlogActions {
   export class LoadBlogsAction {

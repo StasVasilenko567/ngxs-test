@@ -6,8 +6,6 @@ import { BlogActions } from './blog.actions';
 import { tap } from 'rxjs';
 import { blogFeatureKey } from './blog.consts';
 
-// export const blogFeatureKey = "Blog";
-
 export interface BlogStateModel {
   data: {
     blogs: Blog[];
