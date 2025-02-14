@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { State, Action, StateContext, Selector, createSelector } from '@ngxs/store';
+import { State, Action, StateContext } from '@ngxs/store';
 import { Blog } from '../models/blog.model';
 import { BlogsApiService } from '../services/blogs-api.service';
 import { BlogActions } from './blog.actions';

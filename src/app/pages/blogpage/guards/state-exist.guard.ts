@@ -1,19 +1,18 @@
-import { inject } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { Store } from "@ngxs/store";
 import { BlogSelectors } from "../store/blog.selectors";
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from "@angular/router";
+import { ActivatedRouteSnapshot, CanActivate, CanActivateFn, GuardResult, MaybeAsync, Router, RouterStateSnapshot } from "@angular/router";
 
-export const stateExistGuard = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+export const stateExistGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
     const store = inject(Store);
     const router = inject(Router);
 
-    const sig = store.selectSignal(BlogSelectors.blogs);
+    const blogs = store.selectSignal(BlogSelectors.blogs);
 
-    if (sig().length === 0) {
-        router.navigate(['/']);
+    if (blogs().find(blog => blog.id === route.params['id'] as string)) {
+        return true;
     }
 
-    if (!sig().find(blog => blog.id === route.params['id'] as string)) {
-        router.navigate(['/']);
-    }
+    router.navigate(['/']);
+    return false;
 }

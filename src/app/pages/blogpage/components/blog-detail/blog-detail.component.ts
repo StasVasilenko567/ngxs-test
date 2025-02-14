@@ -16,7 +16,7 @@ import { Blog } from "../../models/blog.model";
         MatIconModule
     ]
 })
-export class BlogDetailComponent {
+export class BlogDetailComponent implements OnInit {
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly blogFacade = inject(BlogFacade);
     private readonly router = inject(Router);
@@ -24,6 +24,10 @@ export class BlogDetailComponent {
     private id = this.activatedRoute.snapshot.paramMap.get('id');
     
     public blog: Signal<Blog | undefined> = this.blogFacade.getBlogById(this.id as string);
+
+    ngOnInit(): void {
+        this.blogFacade.loadBlogs();
+    }
 
     public goBack() {
         this.router.navigate(['/']);

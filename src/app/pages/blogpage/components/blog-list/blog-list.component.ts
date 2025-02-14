@@ -8,6 +8,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { CreateBlogDialogComponent } from "../dialogs/create-blog-dialog/create-blog-dialog.component";
 import { Blog } from "../../models/blog.model";
 import { Subscription } from "rxjs";
+import { SignalDialogComponent } from "../dialogs/signal-dialog/signal-dialog.component";
 
 @Component({
     selector: "app-blog-list",
@@ -52,5 +53,11 @@ export class BlogListComponent implements OnInit {
             createdAt: data.createAt
         };
         this.blogFacade.addBlog(tempBlog);
+    }
+
+    public openSignalDialog() {
+        const dialogRef = this.dialog.open(SignalDialogComponent, {
+            width: "900px",
+        });
     }
 }

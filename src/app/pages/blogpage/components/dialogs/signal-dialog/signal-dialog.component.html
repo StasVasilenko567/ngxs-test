@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Сигналы, ок?</h2>
+<mat-dialog-content>
+    <input (change)="onChange()" #text>
+    <p>{{textSignal()}}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="close()"><mat-icon>cancel</mat-icon> Закрыть</button>
+</mat-dialog-actions>
